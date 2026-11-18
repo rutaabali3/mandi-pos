@@ -1,0 +1,6 @@
+{
+  "name": "Mandi POS",
+  "description": "Wholesale agricultural Mandi weighment & thermal receipt POS with 40 kg Mann pricing, Google Sign-In, Firestore cloud history, and CSV export.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

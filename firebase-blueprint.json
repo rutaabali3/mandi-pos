@@ -1,0 +1,72 @@
+{
+  "entities": {
+    "Bill": {
+      "title": "Bill",
+      "description": "Completed wholesale Mandi weighment bill and thermal receipt record.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Authenticated Firebase UID of the Mandi operator who created the bill."
+        },
+        "billNumber": {
+          "type": "string",
+          "description": "Human-readable sequential or timestamped bill identifier (e.g. MND-20261118-001)."
+        },
+        "customerName": {
+          "type": "string",
+          "description": "Customer or Beopari name (defaults to Cash Buyer)."
+        },
+        "itemName": {
+          "type": "string",
+          "description": "Commodity or produce item name (defaults to Potato / Aloo)."
+        },
+        "weights": {
+          "type": "array",
+          "description": "Individual bag weights in kilograms (1 to 500 entries)."
+        },
+        "totalBags": {
+          "type": "integer",
+          "description": "Total number of weighed bags (matches weights.size)."
+        },
+        "totalWeightKg": {
+          "type": "number",
+          "description": "Sum of all individual bag weights in kilograms."
+        },
+        "ratePerMann": {
+          "type": "number",
+          "description": "Mojoda rate per 40 kg Mann in Rupees."
+        },
+        "finalCost": {
+          "type": "number",
+          "description": "Final payable amount calculated as (totalWeightKg * ratePerMann) / 40."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp written via FieldValue.serverTimestamp()."
+        }
+      },
+      "required": [
+        "userId",
+        "billNumber",
+        "customerName",
+        "itemName",
+        "weights",
+        "totalBags",
+        "totalWeightKg",
+        "ratePerMann",
+        "finalCost",
+        "createdAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/bills/{billId}": {
+      "schema": {
+        "$ref": "#/entities/Bill"
+      },
+      "description": "Top-level collection of operator-owned Mandi weighment bills scoped by userId."
+    }
+  }
+}

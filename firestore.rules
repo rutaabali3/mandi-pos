@@ -1,0 +1,89 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isNum(val) {
+      return val is int || val is float;
+    }
+
+    function isValidBill(data) {
+      return data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.billNumber is string && data.billNumber.size() >= 1 && data.billNumber.size() <= 40 &&
+             data.customerName is string && data.customerName.size() >= 1 && data.customerName.size() <= 80 &&
+             data.itemName is string && data.itemName.size() >= 1 && data.itemName.size() <= 80 &&
+             data.weights is list && data.weights.size() >= 1 && data.weights.size() <= 500 &&
+             isNum(data.weights[0]) && data.weights[0] > 0 &&
+             data.totalBags is int && data.totalBags >= 1 && data.totalBags <= 500 &&
+             data.totalBags == data.weights.size() &&
+             isNum(data.totalWeightKg) && data.totalWeightKg > 0 && data.totalWeightKg <= 500000 &&
+             isNum(data.ratePerMann) && data.ratePerMann > 0 && data.ratePerMann <= 10000000 &&
+             isNum(data.finalCost) && data.finalCost >= 0 && data.finalCost <= 1000000000 &&
+             data.createdAt is timestamp && data.createdAt <= request.time;
+    }
+
+    match /bills/{billId} {
+      allow get: if isSignedIn() &&
+                    isValidId(billId) &&
+                    existing().userId == request.auth.uid;
+
+      allow list: if isSignedIn() &&
+                     resource.data.userId == request.auth.uid;
+
+      allow create: if isSignedIn() &&
+                       isValidId(billId) &&
+                       incoming().userId == request.auth.uid &&
+                       incoming().keys().hasAll([
+                         'userId',
+                         'billNumber',
+                         'customerName',
+                         'itemName',
+                         'weights',
+                         'totalBags',
+                         'totalWeightKg',
+                         'ratePerMann',
+                         'finalCost',
+                         'createdAt'
+                       ]) &&
+                       incoming().keys().hasOnly([
+                         'userId',
+                         'billNumber',
+                         'customerName',
+                         'itemName',
+                         'weights',
+                         'totalBags',
+                         'totalWeightKg',
+                         'ratePerMann',
+                         'finalCost',
+                         'createdAt'
+                       ]) &&
+                       isValidBill(incoming());
+
+      allow update: if false;
+
+      allow delete: if isSignedIn() &&
+                       isValidId(billId) &&
+                       existing().userId == request.auth.uid;
+    }
+  }
+}

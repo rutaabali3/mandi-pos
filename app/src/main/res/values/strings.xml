@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Mandi POS</string>
+    <string name="app_subtitle">Weighment &amp; Thermal Receipt</string>
+    <string name="shop_header_name">MANDI COMMISSION SHOP</string>
+    <string name="receipt_footer_note">Computerized Weighment Slip</string>
+    <string name="tab_pos">New Bill (POS)</string>
+    <string name="tab_history">Today\'s History</string>
+    <string name="auth_title">Mandi Weighment &amp; Receipt POS</string>
+    <string name="auth_subtitle">Fast 40 kg Mann sack weighing, cloud bill sync, and 58mm/80mm thermal slip printing.</string>
+    <string name="sign_in_google">Sign in with Google</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="default_customer_name">Cash Buyer</string>
+    <string name="default_item_name">Potato / Aloo</string>
+    <string name="label_mojoda_rate">Mojoda Rate (per 40 kg Mann)</string>
+    <string name="label_customer_name">Customer / Beopari Name (Optional)</string>
+    <string name="label_item_name">Commodity / Item Name</string>
+    <string name="hint_bag_weight">Enter bag weight in kg (e.g. 55)</string>
+    <string name="action_add_bag">+ Add Bag</string>
+    <string name="action_save_print">Save &amp; Print Slip</string>
+    <string name="action_copy_whatsapp">Copy / WhatsApp</string>
+    <string name="action_new_bill">New Bill</string>
+    <string name="action_reprint_slip">Reprint Slip</string>
+    <string name="action_export_csv">Export CSV</string>
+    <string name="error_invalid_rate">Enter a valid Mojoda rate per 40 kg Mann.</string>
+    <string name="error_no_bags">Add at least one bag weight before saving.</string>
+</resources>
